@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link href="css/bootstrap.min.css" rel="stylesheet"> 
+  </head>
+  <body>
+
+    <div class="container">
+      <div>
+          <h2>Netcraker</h2>
+      </div>
+      
+      <div class="alert alert-danger" id="msg_agreement" style="display:none">
+        <strong>Error!</strong> This field can't be empty
+      </div>
+      <div class="input-group mb-3">
+        <textarea id="in_data_agreement" type="text" class="form-control" placeholder="Ingres your Agreement..." 
+        	aria-label="Ingres your Agreement..." style="margin-top: 0px; margin-bottom: 0px; height: 250px;"></textarea>
+        <div class="input-group-append">
+          <button id="send_btn_agreement" class="btn btn-outline-secondary" type="button">Process</button>
+        </div>
+      </div>
+      
+      <div class="input-group mb-3">
+        <textarea id="out_data_agreement" type="text" class="form-control" disabled ></textarea>        
+      </div>
+      
+      <div class="alert alert-danger" id="msg_path" style="display:none">
+        <strong>Error!</strong> This field can't be empty
+      </div>
+      <div class="input-group mb-3">
+        <input id="in_data_path" type="text" class="form-control" placeholder="Ingres your Path..." aria-label="Ingres your Path..." ></input>
+        <div class="input-group-append">
+          <button id="send_btn_path" class="btn btn-outline-secondary" type="button">Send</button>
+        </div>
+      </div>                  
+      <div class="input-group mb-3">
+        <textarea id="out_data_path" type="text" class="form-control" disabled style="margin-top: 0px; margin-bottom: 0px; height: 250px;"></textarea>               
+      </div>              
+    </div> 
+
+    <script src="jquery/jquery.min.js"></script>
+    <script>
+      $(function () {
+
+        $('#send_btn_agreement').click(function () {
+        	$('#out_data_agreement').val('')
+            var body = $('#in_data_agreement').val()
+            if (body.trim().length <= 0 )
+              $('#msg_agreement').show()
+            else{
+              $('#msg_agreement').hide()
+              $.ajax({            	  
+                  url: "https://netcrakerdemo.herokuapp.com/v1/store",
+                  contentType: "application/json",
+                  data: body,
+                  dataType: "json",
+                  type: 'POST',
+                  success: function (response) {
+                	  console.log('success')
+                      var result = JSON.stringify(response)
+                      $('#out_data_agreement').val(result)
+                  }
+              });
+          }
+        });
+        //
+        $('#send_btn_path').click(function () {
+        	$('#out_data_path').val('')
+            var param = $('#in_data_path').val()
+            if (param.trim().length <= 0 )
+              $('#msg_path').show()
+            else{
+              $('#msg_path').hide()
+              $.ajax({
+                  url: "https://netcrakerdemo.herokuapp.com/v1/products/"+param,                 
+                  type: 'GET',
+                  success: function (response) {                   	 
+                      $('#out_data_path').val( response )                                       
+                  }
+                	  
+              });
+          }
+        });
+        //
+    });
+    </script>    
+  </body>
+</html>
+

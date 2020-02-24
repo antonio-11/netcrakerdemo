@@ -1,0 +1,14 @@
+{
+  "signedBy" : "John Snow",
+  "products" : [ {
+    "parent" : "Entity.Agreement@1e87bc4c",
+    "name" : "laptop",
+    "price" : 700.0,
+    "products" : [ ]
+  }, {
+    "parent" : "Entity.Agreement@1e87bc4c",
+    "name" : "pc",
+    "price" : 400.0,
+    "products" : [ ]
+  } ]
+}
